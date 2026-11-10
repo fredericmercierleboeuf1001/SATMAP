@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Plan binaire — Simulation de gravure</title>
+  <style>
+    body {
+      background: #000;
+      color: #0f0;
+      font-family: monospace;
+      text-align: center;
+      padding: 2em;
+    }
+    #zoneDrop {
+      border: 2px dashed #0f0;
+      padding: 1em;
+      margin-bottom: 1em;
+      cursor: pointer;
+    }
+    canvas {
+      border: 1px solid #0f0;
+      margin-top: 1em;
+      image-rendering: pixelated;
+    }
+  </style>
+</head>
+<body>
+  <h2>🧠 Plan logique à partir d’un fichier .BIN</h2>
+  <div id="zoneDrop">Glisse ton fichier .bin ici (taille idéale ≤ 32 Ko)</div>
+  <canvas id="puce" width="256" height="256"></canvas>
+
+  <script>
+    const canvas = document.getElementById('puce');
+    const ctx = canvas.getContext('2d');
+    const zoneDrop = document.getElementById('zoneDrop');
+
+    zoneDrop.addEventListener('dragover', e => {
+      e.preventDefault();
+      zoneDrop.style.background = '#111';
+    });
+
+    zoneDrop.addEventListener('dragleave', () => {
+      zoneDrop.style.background = '';
+    });
+
+    zoneDrop.addEventListener('drop', e => {
+      e.preventDefault();
+      zoneDrop.style.background = '';
+      const file = e.dataTransfer.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        const data = new Uint8Array(evt.target.result);
+        const bits = [];
+        for (let i = 0; i < data.length; i++) {
+          const b = data[i].toString(2).padStart(8, '0');
+          for (let bit of b) bits.push(parseInt(bit));
+        }
+
+        const size = 256;
+        canvas.width = size;
+        canvas.height = size;
+
+        const cell = 1; // 1 pixel = 1 cellule logique
+        ctx.clearRect(0, 0, size, size);
+
+        for (let i = 0; i < Math.min(bits.length, size * size); i++) {
+          const x = i % size;
+          const y = Math.floor(i / size);
+          if (bits[i] === 1) {
+            ctx.fillStyle = '#0f0'; // cellule active
+            ctx.fillRect(x * cell, y * cell, cell, cell);
+          } else {
+            ctx.fillStyle = '#030';
+            ctx.fillRect(x * cell, y * cell, cell, cell);
+          }
+        }
+      };
+      reader.readAsArrayBuffer(file);
+    });
+  </script>
+</body>
+</html>
