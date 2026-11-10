@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>BINAIRE ➜ HERTZ</title>
+  <style>
+    body {
+      background: #0b0b0b;
+      color: #00ffff;
+      font-family: monospace;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      padding: 2em;
+    }
+    .zone {
+      margin: 0 1em;
+    }
+    textarea {
+      width: 250px;
+      height: 300px;
+      background: #000;
+      color: #00ffff;
+      border: 1px solid #00ffff;
+      padding: 1em;
+      resize: none;
+    }
+    button {
+      margin-top: 1em;
+      background: #00ffff;
+      color: #000;
+      border: none;
+      padding: 0.8em;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0071c2;
+    }
+  </style>
+</head>
+<body>
+  <div class="zone">
+    <h3>Entrée BINAIRE :</h3>
+    <textarea id="binInput" placeholder="Ex: 000 101 111"></textarea>
+    <button onclick="traduire()">Traduire</button>
+  </div>
+
+  <div class="zone">
+    <h3>Fréquence (Hz) :</h3>
+    <textarea id="hzOutput" readonly></textarea>
+  </div>
+
+  <script>
+    const mapHz = {
+      "000": 2,
+      "001": 126,
+      "010": 250,
+      "011": 374,
+      "100": 498,
+      "101": 622,
+      "110": 746,
+      "111": 870,
+    };
+
+    function traduire() {
+      const input = document.getElementById("binInput").value.trim().split(/\s+/);
+      const output = input.map(bin => mapHz[bin] !== undefined ? mapHz[bin] + " Hz" : "❌");
+      document.getElementById("hzOutput").value = output.join(" ");
+    }
+  </script>
+</body>
+</html>
