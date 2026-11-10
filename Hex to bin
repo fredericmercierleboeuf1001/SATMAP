@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>HEX ➜ BINAIRE</title>
+  <style>
+    body {
+      font-family: monospace;
+      background: #0b0b0b;
+      color: #0071c2;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 2em;
+    }
+
+    .zone {
+      margin: 0 1em;
+    }
+
+    textarea {
+      width: 250px;
+      height: 300px;
+      background: #0a0a0;
+      color: #0071c2;
+      border: 1.2px solid #0071c2;
+      padding: 1.2em;
+      font-size: 1em;
+      resize: none;
+    }
+
+    button {
+      background: #0071c2;
+      color: #0b0b0b;
+      border: none;
+      padding: 0.8em 1.5em;
+      margin-top: 1em;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background: #00ffff;
+    }
+  </style>
+</head>
+<body>
+  <div class="zone">
+    <h3>Entrée HEXA :</h3>
+    <textarea id="hexInput" placeholder="Exemple : 0x3 0x7 0x5"></textarea><br>
+    <button onclick="convertir()">Traduire</button>
+  </div>
+
+  <div class="zone">
+    <h3>Sortie BINAIRE :</h3>
+    <textarea id="binOutput" readonly></textarea>
+  </div>
+
+  <script>
+    function convertir() {
+      const input = document.getElementById("hexInput").value;
+      const hexArray = input.trim().split(/\s+/);
+      const binArray = hexArray.map(val => {
+        let clean = val.toLowerCase().startsWith("0x") ? val.slice(2) : val;
+        if (!/^[0-9a-f]+$/i.test(clean)) return "❌";
+        return parseInt(clean, 16).toString(2).padStart(3, '0');
+      });
+      document.getElementById("binOutput").value = binArray.join(' ');
+    }
+  </script>
+</body>
+</html>
