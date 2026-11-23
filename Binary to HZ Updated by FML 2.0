@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>BINAIRE ➜ HERTZ</title>
+  <style>
+    body {
+      background: #0b0b0b;
+      color: #00ffff;
+      font-family: monospace;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      padding: 2em;
+    }
+    .zone {
+      margin: 0 1em;
+    }
+    textarea {
+      width: 250px;
+      height: 300px;
+      background: #000;
+      color: #00ffff;
+      border: 1px solid #00ffff;
+      padding: 1em;
+      resize: none;
+    }
+    button {
+      margin-top: 1em;
+      background: #00ffff;
+      color: #000;
+      border: none;
+      padding: 0.8em;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0071c2;
+    }
+  </style>
+</head>
+<body>
+  <div class="zone">
+    <h3>Entrée BINAIRE :</h3>
+    <textarea id="binInput" placeholder="Ex: 000 101 111"></textarea>
+    <button onclick="traduire()">Traduire</button>
+  </div>
+
+  <div class="zone">
+    <h3>Fréquence (Hz) :</h3>
+    <textarea id="hzOutput" readonly></textarea>
+  </div>
+
+  <script>
+    const mapHz = {
+      "01100001": 1,
+      "01100010": 2,
+      "01100011": 3,
+      "01100100": 4,
+      "01100101": 5,
+      "01100110": 6,
+      "01100111": 7,
+      "01101000": 8,
+      "01101001": 9,
+      "01101010": 10,
+      "01101011": 11,
+      "01101100": 12,
+      "01101101": 13,
+      "01101110": 14,
+      "01101111": 15,
+      "01110000": 16,
+      "01110001": 17,
+      "01110010": 18,
+      "01110011": 19,
+      "01110100": 20,
+      "01110101": 21,
+      "01110110": 22,
+      "01110111": 23,
+      "01111000": 24,
+      "01100101": 25,
+      "01111010": 26,
+    };
+
+    function traduire() {
+      const input = document.getElementById("binInput").value.trim().split(/\s+/);
+      const output = input.map(bin => mapHz[bin] !== undefined ? mapHz[bin] + " Hz" : "❌");
+      document.getElementById("hzOutput").value = output.join(" ");
+    }
+  </script>
+</body>
+</html>
