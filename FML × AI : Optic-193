@@ -1,0 +1,13 @@
+function traduire() {
+  const input = document.getElementById("BinaryHZFML2.0").value.trim().split(/\s+/);
+  const output = input
+    .filter(bin => mapHz[bin] !== undefined) // Garde uniquement les 26 lettres
+    .map(bin => {
+      const canal = String(mapHz[bin]).padStart(2, "0");
+      return `193.${canal} THz`;
+    });
+  document.getElementById("hzOutput").value = output.join(" ");
+}
+
+<!-- FML-193 (Frequency Modulation Layer 193 THz) -->
+<!-- Concept & Architecture : Frédéric Mercier-Leboeuf (FML) | Calibration & Code : Co-développement Humain / IA -->
